@@ -1,14 +1,15 @@
 import "./styles.css";
-import "./styles.css";
 
 import { useEffect, useRef, useState } from "react";
 
-import AddButton from "../../atoms/add-button";
+import AddButton from "../../atoms/button";
 import { Item } from "../../../types/item";
+import { Product } from "../../../types/product";
+import Spacer from "../../atoms/spacer";
 import TextInput from "../../atoms/text-input";
 
 type SearchBarProps = {
-  addItem: (item: Omit<Item, "id">) => any | void;
+  addItem: (item: Product) => Promise<void>;
 };
 
 export default function SearchBar({ addItem }: SearchBarProps) {
@@ -17,7 +18,7 @@ export default function SearchBar({ addItem }: SearchBarProps) {
 
   function handleAdd() {
     if (inputRef.current!.value) {
-      addItem({ description: inputRef.current!.value, done: false });
+      addItem({ productName: inputRef.current!.value, checked: false });
       setInput("");
     }
   }
@@ -37,8 +38,9 @@ export default function SearchBar({ addItem }: SearchBarProps) {
   return (
     <header className="searchbar__header">
       <section className="searchbar__wrapper">
-        <TextInput placeholder="novo item" value={input} onChange={(event: any) => setInput(event.target.value)} ref={inputRef} />
-        <AddButton onClick={handleAdd} />
+        <TextInput placeholder="novo item" value={input} onChange={(event: any) => setInput(event.target.value)} ref={inputRef} width="100%" />
+        <Spacer orientation="horizontal" size="12px" />
+        <AddButton onClick={handleAdd} text="Adicionar" icon />
       </section>
     </header>
   );

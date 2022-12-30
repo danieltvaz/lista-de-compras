@@ -1,49 +1,80 @@
-import { useEffect, useState } from "react";
+import { AddProductParams, RemoveProductParams, UpdateProductParams } from "../types/requests";
+import { useCallback, useEffect, useState } from "react";
 
-import { Item } from "../types/item";
-import { LocalStorageKeys } from "../constants/local-storage";
-import localStorageHandler from "../utils/local-storage-handler";
+import { Product } from "../types/product";
+import axiosInstance from "../services/axios";
 
 export default function useList() {
-  const [items, setItems] = useState([] as Item[]);
-  const { getData, saveData } = localStorageHandler();
+  const [items, setItems] = useState([] as Product[]);
+  const [loading, setLoading] = useState(false);
 
-  function updateItem(item: Item) {
-    const newItems = items.map((existingItem) => (existingItem.id === item.id ? { ...item } : { ...existingItem }));
-    setItems([...newItems]);
+  async function updateItem(item: Product) {
+    setLoading(true);
+
+    try {
+      const request = await axiosInstance.put("/list/products", {
+        product: {
+          checked: item.checked,
+          id: item.id,
+          productName: item.productName,
+        },
+      } as UpdateProductParams);
+      await getItems();
+    } catch {
+      alert("Error while updating item");
+    } finally {
+      setLoading(false);
+    }
   }
 
-  function addItem(item: Omit<Item, "id">) {
-    setItems((prev) => [...prev, { ...item, id: new Date().getTime() }]);
+  async function addItem(item: Product) {
+    setLoading(true);
+
+    try {
+      const request = await axiosInstance.post("/list/products", {
+        productName: item.productName,
+      } as AddProductParams);
+      await getItems();
+    } catch {
+      alert("Error while adding item");
+    } finally {
+      setLoading(false);
+    }
   }
 
-  function removeItem(item: Item) {
-    const newItems = items.filter((existingItem) => (existingItem.id === item.id ? false : true));
-    setItems([...newItems]);
+  async function removeItem(item: Product) {
+    setLoading(true);
+
+    try {
+      const request = await axiosInstance.delete("/list/products", {
+        params: {
+          productId: item.id,
+        },
+      } as RemoveProductParams);
+      await getItems();
+    } catch {
+      alert("Error while removing item");
+    } finally {
+      setLoading(false);
+    }
   }
 
-  function storageToQueryString(storage: Item[]) {
-    const base64Storage = storage.map((item) => btoa(JSON.stringify(item)));
-    return base64Storage;
-  }
+  const getItems = useCallback(async () => {
+    setLoading(true);
 
-  function setQueryString(data: string[]) {
-    const params = new URLSearchParams(window.location.search);
-    data.forEach((data) => {
-      params.set("l", data);
-    });
-    window.history.pushState({ path: window.location.href + params.toString() }, "", window.location.href + "?" + params.toString());
-    // window.location.search = params.toString();
-  }
-
-  useEffect(() => setItems(getData(LocalStorageKeys.data)), []);
+    try {
+      const request = await axiosInstance.get("/list/products");
+      setItems(request.data.data);
+    } catch {
+      alert("Error while getting items");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
-    if (items.length) {
-      setQueryString(storageToQueryString(items));
-      saveData(LocalStorageKeys.data, items);
-    }
-  }, [items]);
+    getItems();
+  }, [getItems]);
 
-  return { updateItem, addItem, removeItem, items };
+  return { updateItem, addItem, removeItem, items, loading };
 }

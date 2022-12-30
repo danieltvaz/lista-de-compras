@@ -1,15 +1,15 @@
 import "./styles.css";
 
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Item } from "../../../types/item";
+import { Product } from "../../../types/product";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 
 type ListItemProps = {
-  item: Item;
-  removeItem: (params?: any) => any;
-  updateItem: (params?: any) => any;
+  item: Product;
+  removeItem: (product: Product) => any;
+  updateItem: (product: Product) => any;
 };
 
 export default function ListItem({ item, removeItem, updateItem }: ListItemProps) {
@@ -17,17 +17,17 @@ export default function ListItem({ item, removeItem, updateItem }: ListItemProps
   const inputRef = useRef<HTMLInputElement>(null);
 
   function handleDone(event: ChangeEvent<HTMLInputElement>) {
-    const newItem = { ...item, done: event.target.checked };
-    updateItem({ ...newItem });
+    const newItem = { ...item, checked: event.target.checked };
+    updateItem(newItem);
   }
 
-  function handleDescription(event: ChangeEvent<HTMLInputElement>) {
-    const newItem = { ...item, description: event.target.value };
-    updateItem({ ...newItem });
+  function handleProductName(event: ChangeEvent<HTMLInputElement>) {
+    const newItem = { ...item, productName: event.target.value };
+    updateItem(newItem);
   }
 
   function handleEdit() {
-    if (!item.description) return;
+    if (!item.productName) return;
 
     setIsEdit((prev) => !prev);
 
@@ -39,12 +39,12 @@ export default function ListItem({ item, removeItem, updateItem }: ListItemProps
   return (
     <li className="listitem__wrapper">
       <div className="listitem__description__wrapper">
-        <input type="checkbox" id={item.id.toString()} onChange={handleDone} />
-        <label htmlFor={item.id.toString()}>
+        <input type="checkbox" id={item.id?.toString()} onChange={handleDone} />
+        <label htmlFor={item.id?.toString()}>
           <input
-            value={item.description}
-            onChange={handleDescription}
-            className={item.done ? "listitem__description-input--done listitem__description-input" : "listitem__description-input"}
+            value={item.productName}
+            onChange={handleProductName}
+            className={item.checked ? "listitem__description-input--done listitem__description-input" : "listitem__description-input"}
             disabled={!isEdit}
             ref={inputRef}
           />

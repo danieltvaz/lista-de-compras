@@ -1,17 +1,17 @@
 .textinput__wrapper {
   display: flex;
   position: relative;
+  flex: 1;
 }
 
 .textinput__input {
   border-radius: 4px;
   outline: none;
   border: 1px solid #c9c9c9;
-  max-width: 400px;
 }
 
 .textinput__input::placeholder {
-  padding-left: 30px;
+  text-align: center;
 }
 
 .textinput__iconwrapper {

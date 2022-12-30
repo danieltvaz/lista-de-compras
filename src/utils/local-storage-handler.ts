@@ -1,20 +1,17 @@
-import { LocalStorageKeys } from "../constants/local-storage";
+export function saveData(key: string, data: any) {
+  localStorage.setItem(key, JSON.stringify(data));
+}
 
-export default function localStorageHandler() {
-  function saveData<T>(key: string, data: T) {
-    localStorage.setItem(key, JSON.stringify(data));
-  }
+export function getData<T = any>(key: string): T | null {
+  const data = localStorage.getItem(key);
 
-  function getData<T>(key: string): T {
-    const parsedData = JSON.parse(localStorage.getItem(key) ?? "[]");
+  if (data) {
+    const parsedData = JSON.parse(data);
     return parsedData;
   }
+  return null;
+}
 
-  function onBootDataHandler() {
-    const alreadyExists = JSON.parse(localStorage.getItem(LocalStorageKeys.data) ?? "[]").length > 0;
-    if (alreadyExists) return;
-    localStorage.setItem(LocalStorageKeys.data, JSON.stringify([]));
-  }
-
-  return { saveData, getData, onBootDataHandler };
+export function deleteData<T>(key: string) {
+  localStorage.removeItem(key);
 }
