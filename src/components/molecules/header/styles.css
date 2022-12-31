@@ -4,3 +4,11 @@
   align-items: center;
   width: 100%;
 }
+
+.header__logout-button {
+  border: none;
+  text-decoration: underline;
+  color: rgb(188, 74, 74);
+  background-color: transparent;
+  cursor: pointer;
+}

@@ -1,5 +1,6 @@
 import LoginPage from "../pages/login/login";
 import ProductListPage from "../pages/product-list";
+import ProtectedRoute from "../hocs/ProtectedRoute";
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -10,7 +11,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/products",
-    element: <ProductListPage />,
+    element: (
+      <ProtectedRoute>
+        <ProductListPage />
+      </ProtectedRoute>
+    ),
   },
 ]);
 

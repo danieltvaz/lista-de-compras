@@ -7,7 +7,11 @@ export default function authHandler() {
     saveData("user", payload);
   }
 
-  async function login(email: string, password: string) {
+  async function login(
+    email: string,
+    password: string,
+    callback: (...args: any) => any | void = () => {}
+  ) {
     try {
       const request = await axiosInstance.post("/auth/signin", {
         email,
@@ -20,6 +24,7 @@ export default function authHandler() {
         throw new Error(JSON.stringify(data));
       } else {
         saveAuthData(data);
+        callback();
       }
     } catch (e: any) {
       alert("Email ou senha incorreto");
@@ -32,7 +37,7 @@ export default function authHandler() {
   }
 
   function getJwt() {
-    const userToken = getData("user").jwt as string | null;
+    const userToken = getData("user")?.jwt as string | null;
     if (userToken) {
       return userToken;
     }
@@ -40,7 +45,9 @@ export default function authHandler() {
   }
 
   function getUserData() {
-    const userData = getData("user") as { email: string; jwt: string; name: string } | undefined;
+    const userData = getData("user") as
+      | { email: string; jwt: string; name: string }
+      | undefined;
     return userData;
   }
 

@@ -19,7 +19,9 @@ export default function Header() {
         <p>Bem vindo de volta, {getUserData()?.name.toLocaleUpperCase()}</p>
       </div>
       <nav>
-        <AddButton text="Sair" onClick={handleLogout} />
+        <button className="header__logout-button" onClick={handleLogout}>
+          Sair
+        </button>
       </nav>
     </header>
   );

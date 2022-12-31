@@ -1,4 +1,8 @@
-import { AddProductParams, RemoveProductParams, UpdateProductParams } from "../types/requests";
+import {
+  AddProductParams,
+  RemoveProductParams,
+  UpdateProductParams,
+} from "../types/requests";
 import { useCallback, useEffect, useState } from "react";
 
 import { Product } from "../types/product";
@@ -59,7 +63,7 @@ export default function useList() {
     }
   }
 
-  const getItems = useCallback(async () => {
+  const getItems = async () => {
     setLoading(true);
 
     try {
@@ -70,11 +74,11 @@ export default function useList() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
   useEffect(() => {
     getItems();
-  }, [getItems]);
+  }, []);
 
   return { updateItem, addItem, removeItem, items, loading };
 }

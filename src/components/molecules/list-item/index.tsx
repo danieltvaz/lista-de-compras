@@ -1,6 +1,6 @@
 import "./styles.css";
 
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Product } from "../../../types/product";
@@ -12,18 +12,27 @@ type ListItemProps = {
   updateItem: (product: Product) => any;
 };
 
-export default function ListItem({ item, removeItem, updateItem }: ListItemProps) {
+export default function ListItem({
+  item,
+  removeItem,
+  updateItem,
+}: ListItemProps) {
   const [isEdit, setIsEdit] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [newItem, setNewItem] = useState<Product>({
+    checked: false,
+    productName: "Loading...",
+    id: "0",
+  } as Product);
 
   function handleDone(event: ChangeEvent<HTMLInputElement>) {
     const newItem = { ...item, checked: event.target.checked };
-    updateItem(newItem);
+    setNewItem(newItem);
   }
 
   function handleProductName(event: ChangeEvent<HTMLInputElement>) {
     const newItem = { ...item, productName: event.target.value };
-    updateItem(newItem);
+    setNewItem(newItem);
   }
 
   function handleEdit() {
@@ -31,20 +40,44 @@ export default function ListItem({ item, removeItem, updateItem }: ListItemProps
 
     setIsEdit((prev) => !prev);
 
-    if (isEdit) return;
+    if (isEdit) handleSave();
 
     setTimeout(() => inputRef.current!.focus(), 100);
   }
 
+  function handleSave() {
+    updateItem(newItem);
+  }
+
+  useEffect(() => {
+    setNewItem(item);
+  }, []);
+
+  useEffect(() => {
+    const handleEnter = (e: KeyboardEvent) => e.key === "Enter" && handleEdit();
+
+    inputRef.current?.addEventListener("keyup", handleEnter);
+
+    return () => inputRef.current?.removeEventListener("keyup", handleEnter);
+  }, []);
+
   return (
     <li className="listitem__wrapper">
       <div className="listitem__description__wrapper">
-        <input type="checkbox" id={item.id?.toString()} onChange={handleDone} />
-        <label htmlFor={item.id?.toString()}>
+        <input
+          type="checkbox"
+          id={newItem.id?.toString()}
+          onChange={handleDone}
+        />
+        <label htmlFor={newItem.id?.toString()}>
           <input
-            value={item.productName}
+            value={newItem.productName}
             onChange={handleProductName}
-            className={item.checked ? "listitem__description-input--done listitem__description-input" : "listitem__description-input"}
+            className={
+              newItem.checked
+                ? "listitem__description-input--done listitem__description-input"
+                : "listitem__description-input"
+            }
             disabled={!isEdit}
             ref={inputRef}
           />
@@ -54,7 +87,9 @@ export default function ListItem({ item, removeItem, updateItem }: ListItemProps
         <button onClick={handleEdit} className="listitem__editbutton">
           {isEdit ? "Salvar" : "Editar"}
         </button>
-        <button onClick={() => removeItem(item)} className="listitem__removebutton">
+        <button
+          onClick={() => removeItem(newItem)}
+          className="listitem__removebutton">
           <FontAwesomeIcon icon={faTrashCan} />
         </button>
       </div>
