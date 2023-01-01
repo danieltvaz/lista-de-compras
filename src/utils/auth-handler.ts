@@ -32,6 +32,32 @@ export default function authHandler() {
     }
   }
 
+  async function signup(
+    email: string,
+    password: string,
+    name: string,
+    callback: (...args: any) => any | void = () => {}
+  ) {
+    try {
+      const request = await axiosInstance.post("/auth/signup", {
+        email,
+        password,
+        name,
+      });
+
+      const data = await request.data;
+
+      if (request.status !== 200) {
+        throw new Error(JSON.stringify(data));
+      } else {
+        callback();
+      }
+    } catch (e: any) {
+      alert("Dados inválidos");
+      throw new Error(e);
+    }
+  }
+
   function logout() {
     deleteData("user");
   }
@@ -58,5 +84,5 @@ export default function authHandler() {
     return false;
   }
 
-  return { login, logout, getJwt, isAutenticated, getUserData };
+  return { login, logout, getJwt, isAutenticated, getUserData, signup };
 }

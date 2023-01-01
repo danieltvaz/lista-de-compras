@@ -26,19 +26,17 @@ export default function ListItem({
   } as Product);
 
   function handleDone(event: ChangeEvent<HTMLInputElement>) {
-    const newItem = { ...item, checked: event.target.checked };
-    setNewItem(newItem);
+    updateItem({ ...newItem, checked: event.target.checked });
   }
 
   function handleProductName(event: ChangeEvent<HTMLInputElement>) {
-    const newItem = { ...item, productName: event.target.value };
-    setNewItem(newItem);
+    setNewItem((prev) => ({ ...prev, productName: event.target.value }));
   }
 
   function handleEdit() {
-    if (!item.productName) return;
-
     setIsEdit((prev) => !prev);
+
+    if (isEdit && !newItem.productName) return;
 
     if (isEdit) handleSave();
 
@@ -50,16 +48,12 @@ export default function ListItem({
   }
 
   useEffect(() => {
-    setNewItem(item);
-  }, []);
+    console.log(newItem);
+  }, [newItem]);
 
   useEffect(() => {
-    const handleEnter = (e: KeyboardEvent) => e.key === "Enter" && handleEdit();
-
-    inputRef.current?.addEventListener("keyup", handleEnter);
-
-    return () => inputRef.current?.removeEventListener("keyup", handleEnter);
-  }, []);
+    setNewItem(item);
+  }, [item]);
 
   return (
     <li className="listitem__wrapper">
@@ -68,6 +62,7 @@ export default function ListItem({
           type="checkbox"
           id={newItem.id?.toString()}
           onChange={handleDone}
+          checked={newItem.checked}
         />
         <label htmlFor={newItem.id?.toString()}>
           <input

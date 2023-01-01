@@ -1,4 +1,4 @@
-.login__wrapper {
+.signup__wrapper {
   display: flex;
   width: 300px;
   height: 400px;
@@ -10,7 +10,7 @@
   border-radius: 10px;
 }
 
-.login__signup-button {
+.signup__back-button {
   border: none;
   text-decoration: underline;
   color: #007bff;
@@ -19,7 +19,7 @@
 }
 
 @media screen and (min-width: 280px) and (max-width: 1023px) {
-  .login__wrapper {
+  .signup__wrapper {
     width: 100%;
   }
 }
