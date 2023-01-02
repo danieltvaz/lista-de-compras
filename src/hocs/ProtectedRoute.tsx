@@ -13,5 +13,5 @@ export default function ProtectedRoute({ children }: ProtectedRouteTypes) {
   const { isAutenticated } = authHandler();
 
   if (isAutenticated()) return <>{children}</>;
-  else return <Navigate to="/" />;
+  else return <Navigate to="/lista-de-compras" />;
 }

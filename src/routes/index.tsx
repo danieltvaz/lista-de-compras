@@ -6,7 +6,7 @@ import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/lista-de-compras",
     element: <LoginPage />,
     index: true,
   },
