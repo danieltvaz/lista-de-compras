@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/lista-de-compras/static/css/main.0802e10b.css",
-    "main.js": "/lista-de-compras/static/js/main.86effb48.js",
+    "main.js": "/lista-de-compras/static/js/main.a8329f1d.js",
     "static/js/27.1faf11d6.chunk.js": "/lista-de-compras/static/js/27.1faf11d6.chunk.js",
     "static/media/logo.jpeg": "/lista-de-compras/static/media/logo.8bfe126aabf155ef1129.jpeg",
     "index.html": "/lista-de-compras/index.html"
   },
   "entrypoints": [
     "static/css/main.0802e10b.css",
-    "static/js/main.86effb48.js"
+    "static/js/main.a8329f1d.js"
   ]
 }
