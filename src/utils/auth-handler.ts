@@ -7,11 +7,7 @@ export default function authHandler() {
     saveData("user", payload);
   }
 
-  async function login(
-    email: string,
-    password: string,
-    callback: (...args: any) => any | void = () => {}
-  ) {
+  async function login(email: string, password: string, callback: (...args: any) => any | void = () => {}) {
     try {
       const request = await axiosInstance.post("/auth/signin", {
         email,
@@ -53,7 +49,7 @@ export default function authHandler() {
         callback();
       }
     } catch (e: any) {
-      alert("Dados inválidos");
+      alert(e.response.data.message);
       throw new Error(e);
     }
   }
@@ -71,9 +67,7 @@ export default function authHandler() {
   }
 
   function getUserData() {
-    const userData = getData("user") as
-      | { email: string; jwt: string; name: string }
-      | undefined;
+    const userData = getData("user") as { email: string; jwt: string; name: string } | undefined;
     return userData;
   }
 
