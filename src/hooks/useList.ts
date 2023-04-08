@@ -1,8 +1,4 @@
-import {
-  AddProductParams,
-  RemoveProductParams,
-  UpdateProductParams,
-} from "../types/requests";
+import { AddProductParams, RemoveProductParams, UpdateProductParams } from "../types/requests";
 import { useCallback, useEffect, useState } from "react";
 
 import { Product } from "../types/product";
@@ -18,9 +14,7 @@ export default function useList() {
     try {
       const request = await axiosInstance.put("/list/products", {
         product: {
-          checked: item.checked,
-          id: item.id,
-          productName: item.productName,
+          ...item,
         },
       } as UpdateProductParams);
       await getItems();
@@ -36,7 +30,7 @@ export default function useList() {
 
     try {
       const request = await axiosInstance.post("/list/products", {
-        productName: item.productName,
+        ...item,
       } as AddProductParams);
       await getItems();
     } catch {
@@ -63,22 +57,26 @@ export default function useList() {
     }
   }
 
-  const getItems = async () => {
+  async function getItems(searchText?: string) {
     setLoading(true);
 
     try {
-      const request = await axiosInstance.get("/list/products");
+      const request = await axiosInstance.get("/list/products", {
+        params: {
+          search: searchText,
+        },
+      });
       setItems(request.data.data);
     } catch {
       alert("Error while getting items");
     } finally {
       setLoading(false);
     }
-  };
+  }
 
   useEffect(() => {
     getItems();
   }, []);
 
-  return { updateItem, addItem, removeItem, items, loading };
+  return { updateItem, addItem, removeItem, items, loading, getItems };
 }

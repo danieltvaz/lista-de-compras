@@ -1,11 +1,25 @@
+.searchbar__header {
+  height: 120px;
+  width: 100%;
+  flex-direction: column;
+}
+
 .searchbar__wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  flex-direction: column;
+}
+
+.searchbar__add-item_wrapper {
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
 
-.searchbar__header {
-  height: 80px;
+.searchbar__search-item_wrapper {
+  display: flex;
+  justify-content: space-between;
   width: 100%;
 }
 
