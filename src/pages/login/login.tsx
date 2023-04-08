@@ -1,7 +1,5 @@
 import "./styles.css";
 
-import { useEffect, useState } from "react";
-
 import Button from "../../components/atoms/button";
 import { Link } from "react-router-dom";
 import LoadingOverlay from "../../components/atoms/loading-overlay";
@@ -11,6 +9,7 @@ import TextInput from "../../components/atoms/text-input";
 import logo from "../../assets/logo.jpeg";
 import useAuth from "../../utils/auth-handler";
 import { useNavigate } from "react-router";
+import { useState } from "react";
 
 export default function LoginPage() {
   const [form, setForm] = useState({
@@ -28,8 +27,7 @@ export default function LoginPage() {
 
     try {
       await login(form.email, form.password, () => navigate("/products"));
-    } catch (e: any) {
-      console.log(e);
+    } catch {
     } finally {
       setLoading(false);
     }
@@ -47,9 +45,7 @@ export default function LoginPage() {
             type="email"
             placeholder="e-mail"
             value={form.email}
-            onChange={(e) =>
-              setForm((prev) => ({ ...prev, email: e.target.value }))
-            }
+            onChange={(e) => setForm((prev) => ({ ...prev, email: e.target.value }))}
             icon={false}
           />
           <Spacer orientation="vertical" size="12px" />
@@ -58,9 +54,7 @@ export default function LoginPage() {
             type="password"
             placeholder="senha"
             value={form.password}
-            onChange={(e) =>
-              setForm((prev) => ({ ...prev, password: e.target.value }))
-            }
+            onChange={(e) => setForm((prev) => ({ ...prev, password: e.target.value }))}
             icon={false}
           />
         </div>
