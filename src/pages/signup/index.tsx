@@ -25,9 +25,8 @@ export default function SignupPage() {
     setLoading(true);
     try {
       await signup(form.email, form.password, form.name);
-      navigate("/lista-de-compras");
-    } catch (e: any) {
-      alert(e.message);
+      navigate("/");
+    } catch {
     } finally {
       setLoading(false);
     }
@@ -44,9 +43,7 @@ export default function SignupPage() {
             type="text"
             placeholder="nome"
             value={form.name}
-            onChange={(e) =>
-              setForm((prev) => ({ ...prev, name: e.target.value }))
-            }
+            onChange={(e) => setForm((prev) => ({ ...prev, name: e.target.value }))}
             icon={false}
           />
           <Spacer orientation="vertical" size="12px" />
@@ -56,9 +53,7 @@ export default function SignupPage() {
             type="email"
             placeholder="e-mail"
             value={form.email}
-            onChange={(e) =>
-              setForm((prev) => ({ ...prev, email: e.target.value }))
-            }
+            onChange={(e) => setForm((prev) => ({ ...prev, email: e.target.value }))}
             icon={false}
           />
           <Spacer orientation="vertical" size="12px" />
@@ -68,9 +63,7 @@ export default function SignupPage() {
             type="password"
             placeholder="senha"
             value={form.password}
-            onChange={(e) =>
-              setForm((prev) => ({ ...prev, password: e.target.value }))
-            }
+            onChange={(e) => setForm((prev) => ({ ...prev, password: e.target.value }))}
             icon={false}
           />
         </div>
@@ -78,7 +71,7 @@ export default function SignupPage() {
           <Button text="Cadastrar" onClick={handleClick} />
         </div>
         <div>
-          <Link className="signup__back-button" to="/lista-de-compras">
+          <Link className="signup__back-button" to="/">
             Voltar
           </Link>
         </div>
