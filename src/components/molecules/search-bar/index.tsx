@@ -10,9 +10,10 @@ import TextInput from "../../atoms/text-input";
 type SearchBarProps = {
   addItem: (item: Product) => Promise<void>;
   searchItem: (searchText: string) => any | void;
+  uncheckAll: () => any | void;
 };
 
-export default function SearchBar({ addItem, searchItem }: SearchBarProps) {
+export default function SearchBar({ addItem, searchItem, uncheckAll }: SearchBarProps) {
   const [input, setInput] = useState("");
   const [price, setPrice] = useState("");
   const [searchText, setSearchText] = useState("");
@@ -28,6 +29,10 @@ export default function SearchBar({ addItem, searchItem }: SearchBarProps) {
 
   function handleSearch() {
     searchItem(searchText);
+  }
+
+  function handleUncheckAll() {
+    uncheckAll();
   }
 
   function keyupHandle(event: any) {
@@ -91,6 +96,11 @@ export default function SearchBar({ addItem, searchItem }: SearchBarProps) {
             size="73px"
           />
         </div>
+        <Spacer orientation="vertical" size="12px" />
+        <div className="searchbar__options_wrapper">
+          <Button text="Desmarcar todos" onClick={handleUncheckAll} variant="danger" size="auto" />
+        </div>
+        <Spacer orientation="vertical" size="12px" />
       </section>
     </header>
   );

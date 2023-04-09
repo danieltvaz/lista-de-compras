@@ -74,9 +74,22 @@ export default function useList() {
     }
   }
 
+  async function uncheckAll() {
+    setLoading(true);
+
+    try {
+      const request = await axiosInstance.put("/list/products/uncheckAll", {});
+      await getItems();
+    } catch {
+      alert("Error while unchecking all items");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   useEffect(() => {
     getItems();
   }, []);
 
-  return { updateItem, addItem, removeItem, items, loading, getItems };
+  return { updateItem, addItem, removeItem, items, loading, getItems, uncheckAll };
 }

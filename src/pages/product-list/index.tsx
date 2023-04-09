@@ -7,13 +7,13 @@ import TodoList from "../../components/molecules/todo-list";
 import useList from "../../hooks/useList";
 
 export default function ProductListPage() {
-  const { items, addItem, removeItem, updateItem, loading, getItems } = useList();
+  const { items, addItem, removeItem, updateItem, loading, getItems, uncheckAll } = useList();
 
   return (
     <MainContainer>
       <LoadingOverlay active={loading} />
       <Header />
-      <SearchBar addItem={addItem} searchItem={getItems} />
+      <SearchBar addItem={addItem} searchItem={getItems} uncheckAll={uncheckAll} />
       <TodoList>
         {items?.map((item) => (
           <ListItem item={item} key={item.id} removeItem={removeItem} updateItem={updateItem} />
