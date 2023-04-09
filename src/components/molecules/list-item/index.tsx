@@ -51,7 +51,7 @@ export default function ListItem({ item, removeItem, updateItem }: ListItemProps
 
   useEffect(() => {
     setCurrentItem(item);
-  }, []);
+  }, [item]);
 
   return (
     <li className="listitem__wrapper">
