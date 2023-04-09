@@ -1,0 +1,19 @@
+.input__wrapper {
+  position: relative;
+  width: 100px;
+  display: flex;
+}
+
+.input__input_element {
+  color: transparent;
+  width: 100%;
+  border: none;
+  padding: 2px;
+}
+
+.input__presentation-value_text {
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  font-size: 12px;
+}

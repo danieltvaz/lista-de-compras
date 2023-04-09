@@ -2,10 +2,11 @@ import "./styles.css";
 
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 
+import CurrencyInput from "../../atoms/currency-input";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Product } from "../../../types/product";
+import Spacer from "../../atoms/spacer";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
-import { formatMoney } from "../../../utils";
 
 type ListItemProps = {
   item: Product;
@@ -56,31 +57,33 @@ export default function ListItem({ item, removeItem, updateItem }: ListItemProps
   return (
     <li className="listitem__wrapper">
       <div className="listitem__description__wrapper">
-        <input type="checkbox" id={currentItem.id?.toString()} onChange={handleDone} checked={currentItem.checked} />
-        <label htmlFor={currentItem.id?.toString()}>
-          <input
-            value={currentItem.productName ?? ""}
-            onChange={handleProductName}
-            className={
-              currentItem.checked
-                ? "listitem__description-input--done listitem__description-input"
-                : "listitem__description-input"
-            }
-            disabled={!isEdit}
-            ref={inputRef}
-          />
-          <input
-            value={currentItem.price ? "R$ " + currentItem.price : "R$ 0"}
-            onChange={handleProductPrice}
-            className={
-              currentItem.checked
-                ? "listitem__description-input--done listitem__description-input"
-                : "listitem__description-input"
-            }
-            disabled={!isEdit}
-          />
-        </label>
+        <div className="listitem__column">
+          <div className="listitem__row">
+            <input
+              type="checkbox"
+              id={currentItem.id?.toString()}
+              onChange={handleDone}
+              checked={currentItem.checked}
+            />
+            <label htmlFor={currentItem.id?.toString()}>
+              <input
+                value={currentItem.productName ?? ""}
+                onChange={handleProductName}
+                className={
+                  currentItem.checked
+                    ? "listitem__description-input--done listitem__description-input"
+                    : "listitem__description-input"
+                }
+                disabled={!isEdit}
+                ref={inputRef}
+              />
+            </label>
+          </div>
+          <Spacer orientation="vertical" size="8px" />
+          <CurrencyInput />
+        </div>
       </div>
+
       <div className="listitem__buttons__wrapper">
         <button onClick={handleEdit} className="listitem__editbutton">
           {isEdit ? "Salvar" : "Editar"}
